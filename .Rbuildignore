@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 ^dev$
 ^LICENSE\.md$
+^\.gitlab-ci\.yml$
+^ci/lib$
