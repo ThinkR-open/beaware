@@ -1,0 +1,7 @@
+test_that("Test get r version of rsession", {
+  pids <- get_process_rsession()
+  
+  process <- get_r_version(pids$pid)
+  expect_is(process, "data.frame")
+  expect_true(all(c("pid", "r_version") %in% names(process)))
+})

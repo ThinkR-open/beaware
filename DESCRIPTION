@@ -1,0 +1,27 @@
+Package: beaware
+Title: R Session Tracking Tool For RSworkbench
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Cervan", "Girard", , "cervan@thinkr.fr", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-4816-4624")),
+    person("ThinkR", role = "cph")
+  )
+Description: Tracking sessions around users to know what's going on.
+License: MIT + file LICENSE
+Imports: 
+    attempt,
+    dplyr,
+    magrittr,
+    ps,
+    purrr,
+    stringr
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
