@@ -1,0 +1,114 @@
+---
+title: "dev_history.Rmd empty"
+author: "Sebastien Rochette"
+date: "23/01/2021"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r development, include=FALSE}
+library(testthat)
+```
+
+```{r development-1}
+# Load already included functions
+pkgload::load_all(export_all = FALSE)
+```
+
+# Memory info general
+
+```{r development}
+
+## get memory info
+
+ok <- system("cat /proc/meminfo", intern = TRUE) %>% 
+  as.list() %>% 
+  flatten_chr() %>% 
+  str_split(":") %>% 
+  map(str_trim) %>% 
+  map(~ {
+    c(.x[1],  
+      .x[2] %>%
+        str_extract("[:digit:]+")
+        )
+    }) %>% 
+  map(~ .x[2] %>% set_names(thinkr::clean_vec(.x[1]))) %>% 
+  
+  flatten() %>% 
+  imap(~ as.numeric(.x) / (1024*1024))
+
+
+data.frame( usedmemory = ok$memtotal - (ok$memfree + (ok$buffers + ok$cached +ok$sreclaimable - ok$shmem)),
+            memtotal = ok$memtotal,
+            time = Sys.time())
+
+```
+
+
+```{r function}
+#' Get mem info
+#'
+#' @return data.frame 
+#' @export
+#'
+#' @importFrom attempt attempt
+#' @importFrom stringr str_split str_trim str_extract
+#' @importFrom purrr map imap flatten set_names
+#' @importFrom thinkr clean_vec
+#'
+#' @examples
+get_mem_info <- function(){
+  process <-  attempt(
+    system("cat /proc/meminfo", intern = TRUE), 
+    msg = "Cannot get memory info, please chek your rights"
+  )
+  
+  ok <- process  %>% 
+  str_split(":") %>% 
+  map(str_trim) %>% 
+  map(~ {
+    c(.x[1],  
+      .x[2] %>%
+        str_extract("[:digit:]+")
+        )
+    }) %>% 
+  map(~ .x[2] %>% set_names(clean_vec(.x[1]))) %>% 
+  flatten() %>% 
+  imap(~ as.numeric(.x) / (1024*1024))
+
+
+data.frame( usedmemory = ok$memtotal - (ok$memfree + (ok$buffers + ok$cached +ok$sreclaimable - ok$shmem)),
+            memtotal = ok$memtotal,
+            time = Sys.time())
+}
+```
+
+```{r examples}
+get_mem_info()
+```
+
+```{r tests}
+test_that("Test for get info", {
+ meminfo <- get_mem_info()
+ expect_is(meminfo, "data.frame")
+ expect_true(all(c("usedmemory", "memtotal", "time") %in% names(meminfo)))
+})
+```
+
+
+```{r development-1, eval=FALSE}
+# Run but keep eval=FALSE to avoid infinite loop
+# Execute in the console directly
+fusen::inflate(rmd = "dev/dev_history_2.Rmd", name = "memory")
+```
+
+<!-- # Inflate your package -->
+
+<!-- You're one inflate from paper to box. -->
+<!-- Build your package from this very Rmd using `fusen::inflate()` -->
+
+<!-- - Verify your `"DESCRIPTION"` file has been updated -->
+<!-- - Verify your function is in `"R/"` directory -->
+<!-- - Verify your test is in `"tests/testthat/"` directory -->
+<!-- - Verify this Rmd appears in `"vignettes/"` directory -->

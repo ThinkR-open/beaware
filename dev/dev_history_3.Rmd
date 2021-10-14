@@ -1,0 +1,75 @@
+---
+title: "dev_history.Rmd empty"
+author: "Sebastien Rochette"
+date: "23/01/2021"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r development, include=FALSE}
+library(testthat)
+```
+
+```{r development-1}
+# Load already included functions
+pkgload::load_all(export_all = FALSE)
+```
+
+# Get cpu for all
+
+```{r development}
+system("cat /proc/stat", intern = TRUE) %>%
+  str_split("\\s+") %>% 
+  keep(~ any(str_detect(.x , "^cpu"))) %>% 
+  map_df(~ {
+    data.frame(
+      cpu = .x[1],
+      user = .x[2],
+      nice = .x[3],
+      system = .x[4],
+      idle = .x[5],
+      iowait = .x[6],
+      irq = .x[7],
+      softirq = .x[7]
+    )
+  }) %>% 
+  
+  mutate(across(user:softirq, as.numeric)) %>% 
+  mutate(sum_cpu = rowSums(across(where(is.numeric)))) %>% 
+  mutate(average_cpu = 1 - ( idle / sum_cpu))
+```
+
+
+```{r function}
+
+```
+
+```{r examples}
+
+```
+
+```{r tests}
+test_that("my_function works properly", {
+
+})
+```
+
+# Get cpu by user
+
+
+```{r development-1, eval=FALSE}
+# Run but keep eval=FALSE to avoid infinite loop
+# Execute in the console directly
+fusen::inflate(rmd = "dev/dev_history_3.Rmd", name = "cpu_info")
+```
+
+<!-- # Inflate your package -->
+
+<!-- You're one inflate from paper to box. -->
+<!-- Build your package from this very Rmd using `fusen::inflate()` -->
+
+<!-- - Verify your `"DESCRIPTION"` file has been updated -->
+<!-- - Verify your function is in `"R/"` directory -->
+<!-- - Verify your test is in `"tests/testthat/"` directory -->
+<!-- - Verify this Rmd appears in `"vignettes/"` directory -->

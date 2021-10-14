@@ -16,10 +16,6 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(beaware)
-library(ps)
-library(purrr)
-library(dplyr)
-library(stringr)
 ```
 
 <!--
@@ -40,37 +36,6 @@ and `system.file()` to read it in your examples
 
 # Récupérer les informations pour monitorer
 
-```{r}
-ok <- ps() %>% 
-  filter(stringr::str_detect(name , "^rsession$"))
-
-### il manque le pourcentage CPU et MEM
-
-test <- system("ps -C rsession -o 'pid,%cpu,%mem'", intern = TRUE) %>% 
-  str_replace_all("\\s+", " ") %>%
-  str_trim() %>% 
-  str_split(" ") 
-
-
-ok_bis <- map_df(test[-1], ~ set_names(.x, tolower(test[[1]])) ) %>% 
-  mutate_at(c("pid", "%mem", "%cpu"), as.numeric)
-
-
-mem_cpu <- left_join(ok, ok_bis, by = "pid") 
-
-## Avoir la version de R
-  
-map_df(ok$pid, function(x){
-  cmd <- paste0("cat /proc/",x,"/environ")
-  r_version <- system(cmd, intern = TRUE) %>% 
-    str_extract(".+/R/(.+\\d.\\d.\\d|\\d.\\d.\\d)") %>% 
-    str_extract("\\d.\\d.\\d")
-  data.frame("pid" = x, r_version = r_version)
-}) %>% 
-  right_join(x = mem_cpu, by = "pid")
-
-```
-
 ```{r examples}
 get_process_rsession()
 ```
@@ -81,9 +46,23 @@ get_process_rsession()
 get_mem_cpu()
 ```
 
+# Get r info
+
 ```{r examples-3}
 pids <- get_process_rsession()
 get_r_version(pids$pid)
+```
+
+# Get all info
+
+```{r examples-4}
+get_all_info()
+```
+
+If take too much time
+
+```{r}
+microbenchmark::microbenchmark(get_all_info())
 ```
 
 # There can be development actions
@@ -100,3 +79,4 @@ Build your package from this very Rmd using `fusen::inflate()`
 - Verify your function is in `"R/"` directory
 - Verify your test is in `"tests/testthat/"` directory
 - Verify this Rmd appears in `"vignettes/"` directory
+

@@ -1,0 +1,4 @@
+Name: Get Memory Info
+Description: Get memory info by session, users ect...
+Binding: run_app_memory
+Interactive: true

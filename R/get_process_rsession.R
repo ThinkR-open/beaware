@@ -11,6 +11,6 @@
 #' @examples
 #' get_process_rsession()
 get_process_rsession <- function() {
-  ps() %>%
+  ps() %>% 
     filter(str_detect(name , "^rsession$"))
 }

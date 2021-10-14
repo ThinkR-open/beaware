@@ -10,13 +10,19 @@ Description: Tracking sessions around users to know what's going on.
 License: MIT + file LICENSE
 Imports: 
     attempt,
+    config,
     dplyr,
+    golem,
     magrittr,
+    miniUI,
     ps,
     purrr,
-    stringr
+    shiny,
+    stringr,
+    thinkr
 Suggests: 
     knitr,
+    microbenchmark,
     rmarkdown,
     testthat
 VignetteBuilder: 
