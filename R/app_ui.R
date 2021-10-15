@@ -10,11 +10,14 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # Your application UI logic
-    miniPage(
-      gadgetTitleBar(p("Get Infos About Memory", icon("area-chart")),
+    fluidPage(
+      gadgetTitleBar(p("Get Infos About Memory", icon("chart-area")),
                      left = NULL,
                      right = miniTitleBarButton("close", "Close", primary = TRUE)),
-      p("ok")
+      hr(),
+        wellPanel(
+          mod_user_ui("user_ui_1")
+          )
     )
   )
 }

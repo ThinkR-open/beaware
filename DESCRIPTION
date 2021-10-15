@@ -12,12 +12,15 @@ Imports:
     attempt,
     config,
     dplyr,
+    forcats,
+    ggplot2,
     golem,
     magrittr,
     miniUI,
     ps,
     purrr,
     shiny,
+    stats,
     stringr,
     thinkr
 Suggests: 

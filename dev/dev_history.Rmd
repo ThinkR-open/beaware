@@ -238,7 +238,8 @@ get_all_info <- function(){
   
   r_process %>% 
     left_join(r_version, by = "pid") %>% 
-    left_join(cpu_mem, by = "pid")
+    left_join(cpu_mem, by = "pid") %>% 
+    mutate(pid = as.character(pid))
 }
 ```
 
