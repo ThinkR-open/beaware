@@ -18,6 +18,7 @@ graph_mem <- function(data, colors_r){
   ggplot() +
     aes(x = fct_reorder(pid, -`%mem`), y = `%mem`, fill = r_version) +
     geom_col() +
+    geom_label(aes(label = paste0(`%mem`, " %")), vjust = 0, nudge_y = 0.5) +
     scale_y_continuous(limits = c(0,100)) +
     labs(x = "process id",
          y= "% of memory") +
@@ -32,6 +33,7 @@ graph_cpu <- function(data, colors_r){
     ggplot() +
     aes(x = fct_reorder(pid, -`%cpu`), y = `%cpu`, fill = r_version) +
     geom_col() +
+    geom_label(aes(label = paste0(`%cpu`, " %")), vjust = 0, nudge_y = 0.5) +
     scale_y_continuous(limits = c(0,100)) +
     labs(x = "process id",
          y= "% of memory") +
@@ -45,7 +47,7 @@ graph_cpu <- function(data, colors_r){
 #' @param data data from get_mem_info_by_user
 #' @param max_mem max of memory
 #'
-#' @importFrom ggplot2 ggplot aes geom_col geom_label scale_y_continuous labs
+#' @importFrom ggplot2 ggplot aes geom_col geom_label scale_y_continuous labs coord_flip
 #'
 #' @return ggplot
 #'
@@ -54,8 +56,8 @@ graph_mem_all <- function(data, max_mem){
     ggplot() +
     aes(x = fct_reorder(username, -mem), y = mem) +
     geom_col() +
-    geom_label(label = paste0(mem, " Go")) +
-    scale_y_continuous(limits = c(0,max_mem * 1.05)) +
+    geom_label(aes(label = paste0(mem, " Go")), vjust = 0, nudge_y = 0.5) +
+    scale_y_continuous(limits = c(0, max_mem * 1.05)) +
     labs(x = "User",
          y= "number of memory") +
     ggthemes::theme_fivethirtyeight()

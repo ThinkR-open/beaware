@@ -17,6 +17,7 @@ app_ui <- function(request) {
                        #miniTitleBarButton("launch", "Launch in other session", primary = FALSE),
                      right = miniTitleBarButton("close", "Close", primary = TRUE)),
       hr(),
+      p("This application refreshes automatically every 4 seconds."),
       tabsetPanel(
         id = "onglet",
         tabPanel(

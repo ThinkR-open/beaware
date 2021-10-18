@@ -6,7 +6,7 @@
 #' @noRd
 app_server <- function( input, output, session ) {
   # Your application server logic
-
+  local <- reactiveValues()
   global <- reactiveValues(x = 0)
 
   observeEvent(input$onglet,{
@@ -15,7 +15,7 @@ app_server <- function( input, output, session ) {
 
   ### Reactive of app
 
-  invalide <- reactiveTimer(3000)
+  invalide <- reactiveTimer(4000)
 
   observeEvent(invalide(),{
     global$info_all <- get_all_info()
@@ -23,7 +23,12 @@ app_server <- function( input, output, session ) {
     global$get_memory_user <- get_mem_info_by_user(global$get_memory$memtotal)
 
     # for test
-    global$x <- global$x + 1
+    localinfo_all <- global$info_all
+
+    if(!identical(local$info_all, local$old_data)){
+      global$invalide <- rnorm(1, 0, 10000)
+      local$old_data <- local$info_all
+    }
   })
 
   mod_global_server("global_info", global)
