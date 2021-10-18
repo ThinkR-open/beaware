@@ -33,7 +33,7 @@ ok <- system("cat /proc/meminfo", intern = TRUE) %>%
         str_extract("[:digit:]+")
         )
     }) %>% 
-  map(~ .x[2] %>% set_names(thinkr::clean_vec(.x[1]))) %>% 
+  map(~ .x[2] %>% set_names(clean_vec(.x[1]))) %>% 
   
   flatten() %>% 
   imap(~ as.numeric(.x) / (1024*1024))
@@ -55,7 +55,6 @@ data.frame( usedmemory = ok$memtotal - (ok$memfree + (ok$buffers + ok$cached +ok
 #' @importFrom attempt attempt
 #' @importFrom stringr str_split str_trim str_extract
 #' @importFrom purrr map imap flatten set_names
-#' @importFrom thinkr clean_vec
 #'
 #' @examples
 get_mem_info <- function(){

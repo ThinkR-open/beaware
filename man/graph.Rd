@@ -6,12 +6,14 @@
 \alias{graph_cpu}
 \title{Graph memory}
 \usage{
-graph_mem(data)
+graph_mem(data, colors_r)
 
-graph_cpu(data)
+graph_cpu(data, colors_r)
 }
 \arguments{
 \item{data}{data of result get_all_info}
+
+\item{colors_r}{colors for r_versions @seealso color_and_r_version}
 }
 \value{
 ggplot

@@ -11,13 +11,23 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
+      theme = theme_shiny(),
       gadgetTitleBar(p("Get Infos About Memory", icon("chart-area")),
                      left = NULL,
+                       #miniTitleBarButton("launch", "Launch in other session", primary = FALSE),
                      right = miniTitleBarButton("close", "Close", primary = TRUE)),
       hr(),
-        wellPanel(
-          mod_user_ui("user_ui_1")
-          )
+      tabsetPanel(
+        id = "onglet",
+        tabPanel(
+          "Global", # this name is used in app, becareful when change it
+          mod_global_ui("global_info")
+        ),
+        tabPanel("Users", # this name is used in app, becareful when change it
+                   mod_user_ui("user_ui_1")
+        )
+      )
+
     )
   )
 }

@@ -4,7 +4,10 @@
 \alias{get_mem_cpu}
 \title{Get cpu and mem info}
 \usage{
-get_mem_cpu()
+get_mem_cpu(rsession = TRUE)
+}
+\arguments{
+\item{rsession}{info only for rsession}
 }
 \value{
 data frame of process rsession
