@@ -10,14 +10,14 @@
 mod_global_ui <- function(id){
   ns <- NS(id)
   tagList(
-    wellPanel(
+    # wellPanel(
       h3("Information about memory"),
       textOutput(
         ns("ram_total")
       ),
       br(),
       plotOutput(ns("graph_memory"))
-    )
+    # )
 
   )
 }

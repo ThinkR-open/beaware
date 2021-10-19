@@ -177,29 +177,68 @@ clean_vec <- function (vec, verbose = FALSE, unique = TRUE, keep_number = FALSE,
 #' @export
 #'
 killing_app <- function(){
-
-  if(jcvdm$process$is_alive()){
+  test <- try(jcvdm$process$is_alive(), silent = TRUE)
+  test <- if(inherits(test, "try-error")){FALSE}else{test}
+  if(test){
     jcvdm$process$kill()
   }
 }
 
 #' Launchin app
 #'
-#' @importFrom utils browseURL
+#' @param path result of path_rscript fct
+#'
 #' @importFrom processx process
+#' @importFrom httpuv randomPort
 #'
 #' @export
-launching_app <- function(){
-  cmd <- file.path(R.home(),"bin","Rscript")
+launching_app <- function(path = path_rscript() ){
 
+  message("---Stop app if running---")
+  killing_app()
+  message("---Starting app---")
+  jcvdm$port <- randomPort()
   jcvdm$process <- processx::process$new(
     stderr = "",
     stdout = "",
     supervise = TRUE,
-    cmd, c(
+    path, c(
       "-e",
-      paste0("options(shiny.port=5013);beaware::run_app_memory()"))
+      paste0("options(shiny.port=",jcvdm$port,");beaware::run_app_memory()"))
   )
   Sys.sleep(3)
-  browseURL("http://localhost:5013")
+  jcvdm$url <- paste0("http://localhost:",jcvdm$port)
+  open_app()
+}
+
+#' Open app
+#'
+#' @return used for this side effect
+#' @export
+#'
+#' @importFrom utils browseURL
+#'
+open_app <- function(){
+  test <- try(jcvdm$process$is_alive(), silent = TRUE)
+  test <- if(inherits(test, "try-error")){FALSE}else{ test }
+  if(!test){
+    stop("The app is not running")
+  }
+  browseURL(jcvdm$url)
+}
+
+
+#' Path to rscript
+#'
+#' @return path to rscript bin
+#' @export
+#'
+#' @examples
+#' path_rscript()
+path_rscript <- function(){
+  path <- Sys.getenv("RSCRIPT_PATH", file.path(R.home(),"bin","Rscript"))
+  if(path == ""){
+    stop("Please configure RSCRIPT_PATH in your Renviron to add the path to the rscript bin")
+  }
+  path
 }

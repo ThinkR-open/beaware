@@ -4,7 +4,10 @@
 \alias{launching_app}
 \title{Launchin app}
 \usage{
-launching_app()
+launching_app(path = path_rscript())
+}
+\arguments{
+\item{path}{result of path_rscript fct}
 }
 \description{
 Launchin app

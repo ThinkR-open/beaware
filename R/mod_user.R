@@ -11,42 +11,42 @@
 mod_user_ui <- function(id){
   ns <- NS(id)
   tagList(
-    wellPanel(
-      selectInput(inputId = ns("users"), label = "Choisir un user", choices = NULL),
-      selectInput(inputId = ns("r_version"), label = "Choisir une version de R", choices = NULL),
-      fluidRow(
-        column(6,
-               textOutput(ns("sessions_nb"))
-        )
-      ),
-      fluidRow(
-        column(6,
-               h3("Memory info"),
-               plotOutput(
-                 ns("ram_session")
-               )
-        ),
-        column(6,
-               h3("CPU info"),
-               plotOutput(
-                 ns("cpu_session")
-               )
-        )
-      ),
-      hr(),
-      fluidRow(
-        br(),
-        downloadButton(
-          ns("download"),
-          label = "Download infos"
-        ),
-        br(),
-        DTOutput(
-          ns("sessions_details")
-        )
-
+    # wellPanel(
+    selectInput(inputId = ns("users"), label = "Choisir un user", choices = NULL),
+    selectInput(inputId = ns("r_version"), label = "Choisir une version de R", choices = NULL),
+    fluidRow(
+      column(6,
+             textOutput(ns("sessions_nb"))
       )
+    ),
+    fluidRow(
+      column(6,
+             h3("Memory info"),
+             plotOutput(
+               ns("ram_session")
+             )
+      ),
+      column(6,
+             h3("CPU info"),
+             plotOutput(
+               ns("cpu_session")
+             )
+      )
+    ),
+    hr(),
+    br(),
+    downloadButton(
+      ns("download"),
+      label = "Download infos",
+      class = "btn-primary"
+    ), #%>%
+      # tagAppendAttributes(class = "btn-primary"),
+    br(),
+    br(),
+    tableOutput(
+      ns("sessions_details")
     )
+    # )
   )
 }
 
@@ -61,7 +61,7 @@ mod_user_server <- function(id, global){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    local <- reactiveValues()
+    local <- reactiveValues(flag = TRUE)
 
 
     # Update Select input
@@ -69,6 +69,15 @@ mod_user_server <- function(id, global){
 
       if(global$onglet == "Users"){
         message("init update")
+        if(local$flag){
+          showNotification(
+            p("Calculating..."),
+            type = "message",
+            id = ns("notif"),
+            duration = 15
+          )
+          local$flag <- FALSE
+        }
         updateSelectInput(session,
                           inputId = "users",
                           choices = get_all_users())
@@ -126,6 +135,7 @@ mod_user_server <- function(id, global){
 
     output$ram_session <- renderPlot({
       req(local$info_r_version)
+      removeNotification(ns("notif"))
       local$info_r_version %>%
         graph_mem(local$color_r_version)
     })
@@ -147,7 +157,7 @@ mod_user_server <- function(id, global){
       }
     )
 
-    output$sessions_details <- renderDT({
+    output$sessions_details <- renderTable({
       req(local$info_r_version)
       local$info_r_version
     }, options = list(dom = 'bf'))

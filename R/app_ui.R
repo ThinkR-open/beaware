@@ -20,6 +20,7 @@ app_ui <- function(request) {
       p("This application refreshes automatically every 4 seconds."),
       tabsetPanel(
         id = "onglet",
+        type = c("pills"),
         tabPanel(
           "Global", # this name is used in app, becareful when change it
           mod_global_ui("global_info")

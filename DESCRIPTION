@@ -1,6 +1,6 @@
 Package: beaware
 Title: R Session Tracking Tool For RSworkbench
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(
     person("Cervan", "Girard", , "cervan@thinkr.fr", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4816-4624")),
@@ -19,6 +19,7 @@ Imports:
     ggthemes,
     golem,
     grDevices,
+    httpuv,
     magrittr,
     miniUI,
     processx,
@@ -28,7 +29,8 @@ Imports:
     shiny,
     stats,
     stringi,
-    stringr
+    stringr,
+    utils
 Suggests: 
     knitr,
     microbenchmark,
