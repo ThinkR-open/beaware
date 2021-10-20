@@ -136,12 +136,14 @@ mod_user_server <- function(id, global){
     output$ram_session <- renderPlot({
       req(local$info_r_version)
       removeNotification(ns("notif"))
+      validate(need(!is.null(local$info_r_version), "Can't get infos, please check logs."))
       local$info_r_version %>%
         graph_mem(local$color_r_version)
     })
 
     output$cpu_session <- renderPlot({
       req(local$info_r_version)
+      validate(need(!is.null(local$info_r_version), "Can't get infos, please check logs."))
       local$info_r_version %>%
         graph_cpu(local$color_r_version)
     })
