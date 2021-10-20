@@ -19,6 +19,7 @@ app_server <- function( input, output, session ) {
   invalide <- reactiveTimer(4000)
 
   observeEvent(invalide(),{
+
     global$info_all <- get_all_info()
     global$get_memory <- get_mem_info()
     global$get_memory_user <- get_mem_info_by_user(global$get_memory$memtotal)

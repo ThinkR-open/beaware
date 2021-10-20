@@ -28,15 +28,18 @@ pull_unique <- function(.data, var){
 color_and_r_version <- function(){
   version <- paste0(R.version$major,".",R.version$minor)
   if(version >= "3.5.0"){
+    used_version <- 3
     file <- file.path(Sys.getenv('HOME'),".beaware_colors_r_version_3.rda")
   }else{
+    used_version <- 2
     file <- file.path(Sys.getenv('HOME'),".beaware_colors_r_version_2.rda")
   }
 
   if(file.exists(file)){
     read_rds(file)
   }else{
-    stop("Please use update_color_and_r_version first.")
+    update_color_and_r_version(version = used_version)
+    read_rds(file)
   }
 
 }
@@ -76,6 +79,7 @@ update_color_and_r_version <- function(path_file = Sys.getenv('HOME'), version =
     color <- sample(colors(), length(new_r_version))
     jcvdm_colors <- data.frame(r_version = new_r_version, color = color) %>%
       bind_rows(jcvdm_colors) %>%
+      bind_rows(data.frame(r_version = "Not found", color = "seashell1")) %>%
       distinct()
     write_rds(x = jcvdm_colors, file = file, version = version)
 }

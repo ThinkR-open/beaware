@@ -40,7 +40,7 @@ mod_user_ui <- function(id){
       label = "Download infos",
       class = "btn-primary"
     ), #%>%
-      # tagAppendAttributes(class = "btn-primary"),
+    # tagAppendAttributes(class = "btn-primary"),
     br(),
     br(),
     tableOutput(
@@ -135,15 +135,27 @@ mod_user_server <- function(id, global){
 
     output$ram_session <- renderPlot({
       req(local$info_r_version)
+
       removeNotification(ns("notif"))
-      validate(need(!is.null(local$info_r_version), "Can't get infos, please check logs."))
+      validate(
+        need(
+          nrow(local$info_r_version) != 0,
+          "No sessions for this user or R's version"
+        )
+      )
+
       local$info_r_version %>%
         graph_mem(local$color_r_version)
     })
 
     output$cpu_session <- renderPlot({
       req(local$info_r_version)
-      validate(need(!is.null(local$info_r_version), "Can't get infos, please check logs."))
+      validate(
+        need(
+          nrow(local$info_r_version) != 0,
+          "No sessions for this user or R's version."
+        )
+      )
       local$info_r_version %>%
         graph_cpu(local$color_r_version)
     })

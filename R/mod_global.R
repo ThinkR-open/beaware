@@ -33,7 +33,7 @@ mod_global_server <- function(id, global){
     output$ram_total <- renderText({
 
       used <- round(global$get_memory$usedmemory/global$get_memory$memtotal * 100, 2)
-      paste0("Total of memory used: ", used)
+      paste0("Total of memory used: ", used, " %")
 
     })
 

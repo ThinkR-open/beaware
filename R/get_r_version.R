@@ -21,6 +21,6 @@ get_r_version <- function(pids){
     r_version <- attempt(system(cmd, intern = TRUE), msg = "Cannot run cat of /proc/pid, please check your rights") %>%
       str_extract(".+/R/(.+\\d.\\d.\\d|\\d.\\d.\\d)") %>%
       str_extract("\\d.\\d.\\d")
-    data.frame("pid" = x, r_version = r_version)
+    data.frame("pid" = x, r_version = if(is.na(r_version)){"Not found"}else{r_version})
   })
 }
