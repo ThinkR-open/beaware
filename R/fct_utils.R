@@ -209,6 +209,7 @@ launching_app <- function(path = path_rscript() ){
   Sys.sleep(3)
   jcvdm$url <- paste0("http://localhost:",jcvdm$port)
   open_app()
+  message("---To kill this app, use killing_app function---")
 }
 
 #' Open app

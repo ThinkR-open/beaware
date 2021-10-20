@@ -2,10 +2,11 @@
 #'
 #' @return bs_theme
 #'
-#' @importFrom bslib bs_theme
 theme_shiny <- function(){
-
-  bs_theme( bg = "rgb(232, 231, 231)",
+  if(!requireNamespace("bslib")){
+    return(NULL)
+  }
+  bslib::bs_theme( bg = "rgb(232, 231, 231)",
             primary = "#6DA974",
             font_scale = NULL,
             bootswatch = "materia",

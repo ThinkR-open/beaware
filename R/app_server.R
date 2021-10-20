@@ -6,8 +6,6 @@
 #' @noRd
 app_server <- function( input, output, session ) {
 
-  message("To kill this app, use killing_app function")
-
   # Your application server logic
   local <- reactiveValues()
   global <- reactiveValues(x = 0)

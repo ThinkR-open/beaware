@@ -1,6 +1,6 @@
 Package: beaware
 Title: R Session Tracking Tool For RSworkbench
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: c(
     person("Cervan", "Girard", , "cervan@thinkr.fr", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4816-4624")),
@@ -10,7 +10,6 @@ Description: Tracking sessions around users to know what's going on.
 License: MIT + file LICENSE
 Imports: 
     attempt,
-    bslib,
     config,
     dplyr,
     DT,
@@ -32,6 +31,7 @@ Imports:
     stringr,
     utils
 Suggests: 
+    bslib,
     knitr,
     microbenchmark,
     rmarkdown,
