@@ -18,7 +18,7 @@ get_r_version <- function(pids){
   map_df(pids, function(x){
 
     cmd <- paste0("cat /proc/",x,"/environ")
-    r_version <- attempt(system(cmd, intern = TRUE), msg = "Cannot run cat of /proc/pid, please check your rights") %>%
+    r_version <- attempt(system(cmd, intern = TRUE), msg = "Cannot run cat of /proc/pid, please check your rights", silent = TRUE) %>%
       str_extract(".+/R/(.+\\d.\\d.\\d|\\d.\\d.\\d)") %>%
       str_extract("\\d.\\d.\\d")
     data.frame("pid" = x, r_version = if(is.na(r_version)){"Not found"}else{r_version})

@@ -38,6 +38,9 @@ mod_global_server <- function(id, global){
     })
 
     output$graph_memory <- renderPlot({
+
+      global$init <- TRUE # ready to get data
+      req(global$get_memory_user)
       global$get_memory_user %>%
         graph_mem_all(global$get_memory$memtotal)
     })

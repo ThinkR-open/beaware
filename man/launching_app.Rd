@@ -2,7 +2,7 @@
 % Please edit documentation in R/fct_utils.R
 \name{launching_app}
 \alias{launching_app}
-\title{Launchin app}
+\title{Launching app}
 \usage{
 launching_app(path = path_rscript())
 }
@@ -10,5 +10,5 @@ launching_app(path = path_rscript())
 \item{path}{result of path_rscript fct}
 }
 \description{
-Launchin app
+Launching app
 }

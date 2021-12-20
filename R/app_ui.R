@@ -12,12 +12,15 @@ app_ui <- function(request) {
     # Your application UI logic
     fluidPage(
       theme = theme_shiny(),
-      gadgetTitleBar(p("Get Infos About Memory", icon("chart-area")),
-                     left = NULL,
-                       #miniTitleBarButton("launch", "Launch in other session", primary = FALSE),
-                     right = miniTitleBarButton("close", "Close", primary = TRUE)),
+
+      div(class = "static-top", gadgetTitleBar(p("Get Infos About Memory", icon("chart-area")),
+                     right = miniTitleBarButton("close", "Close", primary = TRUE),
+                     left = NULL)),
+      actionButton("refresh", label = "Refresh data!", icon = icon("refresh"), class = "btn-primary btn-sm static-top-btn"),
       hr(),
-      p("This application refreshes automatically every 4 seconds."),
+      br(),
+      br(),
+      br(),
       tabsetPanel(
         id = "onglet",
         type = c("pills"),

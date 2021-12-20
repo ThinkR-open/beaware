@@ -11,9 +11,10 @@
 mod_user_ui <- function(id){
   ns <- NS(id)
   tagList(
+    br(),
     # wellPanel(
-    selectInput(inputId = ns("users"), label = "Choisir un user", choices = NULL),
-    selectInput(inputId = ns("r_version"), label = "Choisir une version de R", choices = NULL),
+    selectInput(inputId = ns("users"), label = "Select a user", choices = NULL),
+    selectInput(inputId = ns("r_version"), label = "Select a version of R", choices = NULL),
     fluidRow(
       column(6,
              textOutput(ns("sessions_nb"))
@@ -38,7 +39,7 @@ mod_user_ui <- function(id){
     downloadButton(
       ns("download"),
       label = "Download infos",
-      class = "btn-primary"
+      class = "btn-primary btn-sm"
     ), #%>%
     # tagAppendAttributes(class = "btn-primary"),
     br(),
@@ -65,7 +66,7 @@ mod_user_server <- function(id, global){
 
 
     # Update Select input
-    observeEvent(global$onglet,{
+    observeEvent(global$info_all,{
 
       if(global$onglet == "Users"){
         message("init update")
@@ -77,6 +78,7 @@ mod_user_server <- function(id, global){
             duration = 15
           )
           local$flag <- FALSE
+        }
         }
         updateSelectInput(session,
                           inputId = "users",
@@ -90,7 +92,7 @@ mod_user_server <- function(id, global){
                           inputId = "r_version",
                           choices = c("All", local$r_version)
         )
-      }
+
 
 
     }, ignoreInit = TRUE, once = TRUE)
@@ -98,25 +100,17 @@ mod_user_server <- function(id, global){
     # invalidate to fin new R process
     observeEvent(global$info_all,{
 
-      if(global$onglet == "Users"){
         local$info_all <- global$info_all %>%
           select(pid, name, username, status, r_version, `%cpu`, `%mem`)
 
-        if(!identical(local$info_all, local$old_data)){
-          local$invalide <- rnorm(1, 0, 10000)
-          local$old_data <- local$info_all
-        }
-      }
-
     })
 
-    observeEvent(c(input$users, input$r_version, local$invalide),{
+    observeEvent(c(input$users, input$r_version, local$info_all),{
 
       req(local$info_all)
 
       local$info_user <- local$info_all %>%
         filter(username == input$users)
-
 
       if(input$r_version == "All"){
         local$info_r_version <- local$info_user
@@ -130,7 +124,7 @@ mod_user_server <- function(id, global){
 
     output$sessions_nb <- renderText({
       req(local$info_r_version)
-      paste0("Nombre de sessions : ", nrow(local$info_r_version))
+      paste0("Number of sessions : ", nrow(local$info_r_version))
     })
 
     output$ram_session <- renderPlot({
@@ -145,7 +139,7 @@ mod_user_server <- function(id, global){
       )
 
       local$info_r_version %>%
-        graph_mem(local$color_r_version)
+        graph_mem(local$color_r_version, input$users)
     })
 
     output$cpu_session <- renderPlot({
@@ -157,7 +151,7 @@ mod_user_server <- function(id, global){
         )
       )
       local$info_r_version %>%
-        graph_cpu(local$color_r_version)
+        graph_cpu(local$color_r_version, input$users)
     })
 
     ## download details

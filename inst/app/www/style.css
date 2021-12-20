@@ -1,0 +1,15 @@
+
+.static-top{
+  position: fixed;
+  top:0;
+  overflow: hidden;
+  left:0;
+  width:100%;
+  z-index: 9999;
+}
+
+.static-top-btn{
+  position: fixed;
+  top:55px;
+  left:45%;
+}

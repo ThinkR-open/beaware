@@ -20,68 +20,59 @@ pull_unique <- function(.data, var){
 
 #' Get colors for r_version
 #'
-#'
 #' @return vector of color
 #'
-#' @importFrom readr read_rds
+#' @importFrom readr read_csv
 
 color_and_r_version <- function(){
-  version <- paste0(R.version$major,".",R.version$minor)
-  if(version >= "3.5.0"){
-    used_version <- 3
-    file <- file.path(Sys.getenv('HOME'),".beaware_colors_r_version_3.rda")
-  }else{
-    used_version <- 2
-    file <- file.path(Sys.getenv('HOME'),".beaware_colors_r_version_2.rda")
-  }
+
+  file <- file.path(Sys.getenv('HOME'),".beaware_colors_r.csv")
 
   if(file.exists(file)){
-    read_rds(file)
+    read_csv(file, show_col_types = FALSE)
   }else{
-    update_color_and_r_version(version = used_version)
-    read_rds(file)
+    update_color_and_r_version()
+    read_csv(file, show_col_types = FALSE)
   }
 
 }
 
 #' Update file of colors and r_version
 #'
-#' read and write colors.rda file to get color and r_version. This file is inside your home called .beaware_colors_r_version.rda
+#' read and write colors.csv file to get color and r_version. This file is inside your home called .beaware_colors_r.csv
 #'
 #' @param path_file path to home var env
-#' @param version 2 or 3 depend one R version @seealso readRDS
 #'
 #' @return Nothing, used for this side effect
 #' @export
 #'
-#' @importFrom readr read_rds write_rds
+#' @importFrom readr read_csv write_csv
 #' @importFrom dplyr bind_rows distinct
 #' @importFrom grDevices colors
 #'
 #' @examples
 #' update_color_and_r_version()
-update_color_and_r_version <- function(path_file = Sys.getenv('HOME'), version = 3){
+update_color_and_r_version <- function(path_file = Sys.getenv('HOME')){
 
-  if(version != 3){
-    file <- file.path(path_file,".beaware_colors_r_version_2.rda")
-  }else{
-    file <- file.path(path_file,".beaware_colors_r_version_3.rda")
-  }
+  # if(version != 3){
+  #   file <- file.path(path_file,".beaware_colors_r_version_2.rda")
+  # }else{
+    file <- file.path(path_file,".beaware_colors_r.csv")
 
   if(!file.exists(file)){
     jcvdm_colors <-  data.frame(r_version = NULL, color = NULL)
   }else{
-    jcvdm_colors <- read_rds(file)
+    jcvdm_colors <- read_csv(file, show_col_types = FALSE)
   }
 
   r_version <- get_all_r_version()
     new_r_version <- setdiff(r_version, jcvdm_colors$r_version)
-    color <- sample(colors(), length(new_r_version))
+    color <- sample(colors()[!grepl(pattern = "seashell", x = colors())], length(new_r_version))
     jcvdm_colors <- data.frame(r_version = new_r_version, color = color) %>%
       bind_rows(jcvdm_colors) %>%
       bind_rows(data.frame(r_version = "Not found", color = "seashell1")) %>%
       distinct()
-    write_rds(x = jcvdm_colors, file = file, version = version)
+    write_csv(x = jcvdm_colors, file = file)
 }
 
 
@@ -188,7 +179,7 @@ killing_app <- function(){
   }
 }
 
-#' Launchin app
+#' Launching app
 #'
 #' @param path result of path_rscript fct
 #'
@@ -203,8 +194,8 @@ launching_app <- function(path = path_rscript() ){
   message("---Starting app---")
   jcvdm$port <- randomPort()
   jcvdm$process <- processx::process$new(
-    stderr = "",
-    stdout = "",
+    # stderr = "",
+    # stdout = "",
     supervise = TRUE,
     path, c(
       "-e",

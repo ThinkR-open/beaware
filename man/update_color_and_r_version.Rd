@@ -4,18 +4,16 @@
 \alias{update_color_and_r_version}
 \title{Update file of colors and r_version}
 \usage{
-update_color_and_r_version(path_file = Sys.getenv("HOME"), version = 3)
+update_color_and_r_version(path_file = Sys.getenv("HOME"))
 }
 \arguments{
 \item{path_file}{path to home var env}
-
-\item{version}{2 or 3 depend one R version @seealso readRDS}
 }
 \value{
 Nothing, used for this side effect
 }
 \description{
-read and write colors.rda file to get color and r_version. This file is inside your home called .beaware_colors_r_version.rda
+read and write colors.csv file to get color and r_version. This file is inside your home called .beaware_colors_r.csv
 }
 \examples{
 update_color_and_r_version()

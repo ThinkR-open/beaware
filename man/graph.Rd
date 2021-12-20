@@ -6,14 +6,16 @@
 \alias{graph_cpu}
 \title{Graph memory}
 \usage{
-graph_mem(data, colors_r)
+graph_mem(data, colors_r, user = NULL)
 
-graph_cpu(data, colors_r)
+graph_cpu(data, colors_r, user = NULL)
 }
 \arguments{
 \item{data}{data of result get_all_info}
 
 \item{colors_r}{colors for r_versions @seealso color_and_r_version}
+
+\item{user}{add user inside the title}
 }
 \value{
 ggplot
