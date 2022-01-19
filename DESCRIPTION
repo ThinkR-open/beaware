@@ -1,6 +1,6 @@
 Package: beaware
 Title: R Session Tracking Tool For RSworkbench
-Version: 0.0.6
+Version: 0.0.7
 Authors@R: c(
     person("Cervan", "Girard", , "cervan@thinkr.fr", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4816-4624")),

@@ -26,6 +26,7 @@ app_server <- function( input, output, session ) {
 
     # for test
     localinfo_all <- global$info_all
+    global$refresh <- input$refresh
 
     if(!identical(local$info_all, local$old_data)){
       global$invalide <- rnorm(1, 0, 10000)

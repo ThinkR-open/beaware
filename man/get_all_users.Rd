@@ -4,7 +4,7 @@
 \alias{get_all_users}
 \title{Get users form system}
 \usage{
-get_all_users()
+get_all_users(data)
 }
 \value{
 character vector

@@ -67,10 +67,20 @@ mod_user_server <- function(id, global){
 
 
     # Update Select input
-    observeEvent(global$info_all,{
+    observeEvent(c(global$info_all, global$refresh), {
+      updateSelectInput(session,
+                        inputId = "users",
+                        # choices = get_all_users()
+                        choices = get_all_users(data = global$info_all))
+    }, ignoreInit = TRUE)
+
+    observeEvent(c(global$info_all, global$refresh),{
+
 
       if(global$onglet == "Users"){
         message("init update")
+
+
         if(local$flag){
           showNotification(
             p("Calculating..."),
@@ -80,13 +90,7 @@ mod_user_server <- function(id, global){
           )
           local$flag <- FALSE
         }
-        }
-        updateSelectInput(session,
-                          inputId = "users",
-                          # choices = get_all_users()
-                          choices = get_all_users(data = global$info_all)
-
-                          )
+      }
 
 
         suppressMessages({
@@ -104,7 +108,7 @@ mod_user_server <- function(id, global){
 
 
 
-    }, ignoreInit = TRUE, once = TRUE)
+    }, ignoreInit = TRUE, once= TRUE)
 
     # invalidate to fin new R process
     observeEvent(global$info_all,{
