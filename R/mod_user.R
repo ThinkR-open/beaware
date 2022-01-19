@@ -88,8 +88,13 @@ mod_user_server <- function(id, global){
 
                           )
 
+
+        suppressMessages({
         local$r_version <- color_and_r_version()$r_version
         local$color_r_version <- color_and_r_version()$color
+        })
+
+
         names(local$color_r_version) <- local$r_version
 
         updateSelectInput(session,

@@ -29,10 +29,10 @@ color_and_r_version <- function(){
   file <- file.path(Sys.getenv('HOME'),".beaware_colors_r.csv")
 
   if(file.exists(file)){
-    read_csv(file, show_col_types = FALSE)
+    read_csv(file)
   }else{
     update_color_and_r_version()
-    read_csv(file, show_col_types = FALSE)
+    read_csv(file)
   }
 
 }
