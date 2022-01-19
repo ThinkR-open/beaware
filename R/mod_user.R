@@ -17,7 +17,8 @@ mod_user_ui <- function(id){
     selectInput(inputId = ns("r_version"), label = "Select a version of R", choices = NULL),
     fluidRow(
       column(6,
-             textOutput(ns("sessions_nb"))
+             textOutput(ns("sessions_nb")),
+             textOutput(ns("username"))
       )
     ),
     fluidRow(
@@ -82,7 +83,10 @@ mod_user_server <- function(id, global){
         }
         updateSelectInput(session,
                           inputId = "users",
-                          choices = get_all_users())
+                          # choices = get_all_users()
+                          choices = get_all_users(data = global$info_all)
+
+                          )
 
         local$r_version <- color_and_r_version()$r_version
         local$color_r_version <- color_and_r_version()$color
@@ -125,6 +129,11 @@ mod_user_server <- function(id, global){
     output$sessions_nb <- renderText({
       req(local$info_r_version)
       paste0("Number of sessions : ", nrow(local$info_r_version))
+    })
+
+    output$username <- renderText({
+      req(local$info_r_version)
+      paste0("User : ", input$users)
     })
 
     output$ram_session <- renderPlot({
