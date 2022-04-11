@@ -12,3 +12,10 @@ $run_dev.*
 ^ci/lib$
 ^app\.R$
 ^rsconnect$
+^CODE_OF_CONDUCT\.md$
+^README\.Rmd$
+^\.gitlab$
+^dev/$
+^\.github$
+^_pkgdown\.yml$
+^docs$

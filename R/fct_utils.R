@@ -102,20 +102,12 @@ get_all_r_version <- function(path = Sys.getenv("PATH_TO_R_INSTALLED", "/opt/R")
 
 #' Get users form system
 #'
+#' @param data result of get_all_info
+#'
 #' @return character vector
 #'
 #' @importFrom stringr str_detect str_extract
 #' @importFrom attempt attempt
-# get_all_users <- function(){
-#   users <- attempt({system("cat /etc/passwd", intern = TRUE)}, msg = "You can not execute 'cat /etc/passwd', please contact your admin.")
-#   filtre_users <- users[str_detect(users, "100[:digit:]")]
-#   get_users <- str_extract(filtre_users, "[:alpha:]+")
-#   get_users %>%
-#     sort()
-# }
-
-
-
 get_all_users <- function(data){
   # users <- attempt({system("cat /etc/passwd", intern = TRUE)}, msg = "You can not execute 'cat /etc/passwd', please contact your admin.")
   # filtre_users <- users[str_detect(users, "100[:digit:]")]

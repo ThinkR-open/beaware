@@ -6,6 +6,9 @@
 \usage{
 get_all_users(data)
 }
+\arguments{
+\item{data}{result of get_all_info}
+}
 \value{
 character vector
 }
