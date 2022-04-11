@@ -44,3 +44,13 @@ beaware::launching_app()
 ```
 
 This instruction allows to launch application in background.
+
+# Sponsor
+
+The development of this package has been sponsored by:
+
+<a href = "https://https://www.santepubliquefrance.fr//"><img src = "inst/langfr-260px-Sante-publique-France-logo.svg.png"></img></a>
+
+# Code of Conduct
+
+Please note that the {beaware} project is released with a Contributor Code of Conduct. By contributing to this project, you agree to abide by its terms.
