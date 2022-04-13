@@ -8,7 +8,7 @@
 # beaware
 
 This application was developed to monitor the use of your server
-resources by R and Rstudio. It fills a gap in Rstudio Server.
+resources by R and Rstudio.
 
 **Code to work with:**
 
@@ -32,6 +32,18 @@ beaware::launching_app()
 ```
 
 This instruction allows to launch application in background.
+
+You can also use the addin to launch the application:
+
+<img src="inst/imgs/addin.png" width="100%" />
+
+### How looks the app
+
+<img src="inst/imgs/page_global.png" width="100%" />
+
+<img src="inst/imgs/page_users.png" width="100%" />
+
+<img src="inst/imgs/page_download.png" width="100%" />
 
 # Sponsor
 

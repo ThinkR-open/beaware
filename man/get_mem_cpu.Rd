@@ -17,4 +17,5 @@ Get cpu and mem info
 }
 \examples{
 get_mem_cpu()
+get_mem_cpu()
 }

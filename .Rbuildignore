@@ -19,3 +19,4 @@ $run_dev.*
 ^\.github$
 ^_pkgdown\.yml$
 ^docs$
+^beawareprod\.Rproj$

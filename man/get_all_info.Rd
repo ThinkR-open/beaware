@@ -14,4 +14,5 @@ Get all info about meme and cpu rsession
 }
 \examples{
 get_all_info()
+get_all_info()
 }

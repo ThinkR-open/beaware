@@ -14,4 +14,5 @@ Get processes rsession
 }
 \examples{
 get_process_rsession()
+get_process_rsession()
 }

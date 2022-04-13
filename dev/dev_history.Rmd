@@ -107,6 +107,7 @@ map_df(ok$pid, function(x){
 #' @importFrom dplyr filter
 #' @importFrom stringr str_detect
 #' @examples
+#' get_process_rsession()
 get_process_rsession <- function() {
   ps() %>% 
     filter(str_detect(name , "^rsession$"))
@@ -131,6 +132,8 @@ test_that("Test get_process_info", {
 #' Get cpu and mem info
 #'
 #'
+#' @param rsession info only for rsession
+#'
 #' @return
 #' data frame of process rsession
 #' @export
@@ -140,22 +143,29 @@ test_that("Test get_process_info", {
 #' @importFrom purrr map_df set_names
 #' @importFrom stringr str_replace_all str_trim str_split
 #' @examples
-get_mem_cpu <- function(){
+#' get_mem_cpu()
+get_mem_cpu <- function(rsession = TRUE){
+
+  if(rsession){
+    cmd <- "ps -C rsession -o 'pid,%cpu,%mem'"
+  }else{
+    cmd <- "ps -Ao 'pid,%cpu,%mem'"
+  }
+
   process <-  attempt(
-    system("ps -C rsession -o 'pid,%cpu,%mem'", intern = TRUE), 
+    system(cmd, intern = TRUE),
     msg = "Cannot run ps command in terminal, please chek your rights"
   )
-  
-  result_process <- process %>% 
+  result_process <- process %>%
     str_replace_all("\\s+", " ") %>%
-    str_trim() %>% 
-    str_split(" ") 
-  
-  
+    str_trim() %>%
+    str_split(" ")
+
+
   map_df(
     result_process[-1],
     ~ set_names(.x, tolower(result_process[[1]]))
-  ) %>% 
+  ) %>%
     mutate_at(c("pid", "%mem", "%cpu"), as.numeric)
 }
 ```
@@ -180,7 +190,7 @@ test_that("Test get cpu mem info", {
 #' Get r version for rsession
 #'
 #' @param pids vector of pids of rsessions
-#'  
+#'
 #' @return
 #' data frame of process rsession
 #' @export
@@ -190,17 +200,18 @@ test_that("Test get cpu mem info", {
 #' @importFrom purrr map_df
 #'
 #' @examples
+#' pids <- get_process_rsession()
+#' get_r_version(pids$pid)
 get_r_version <- function(pids){
-  
+
   map_df(pids, function(x){
-    
+
     cmd <- paste0("cat /proc/",x,"/environ")
-    
-    r_version <- attempt(system(cmd, intern = TRUE), msg = "Cannot run cat of /proc/pid, please check your rights") %>% 
-      str_extract(".+/R/(.+\\d.\\d.\\d|\\d.\\d.\\d)") %>% 
+    r_version <- attempt(system(cmd, intern = TRUE), msg = "Cannot run cat of /proc/pid, please check your rights", silent = TRUE) %>%
+      str_extract(".+/R/(.+\\d.\\d.\\d|\\d.\\d.\\d)") %>%
       str_extract("\\d.\\d.\\d")
-    data.frame("pid" = x, r_version = r_version)
-  }) 
+    data.frame("pid" = x, r_version = if(is.na(r_version)){"Not found"}else{r_version})
+  })
 }
 ```
 
@@ -231,16 +242,23 @@ test_that("Test get r version of rsession", {
 #' @importFrom dplyr left_join
 #'
 #' @examples
+#' get_all_info()
 get_all_info <- function(){
   r_process <- get_process_rsession()
   r_version <- get_r_version(r_process$pid)
   cpu_mem <-  get_mem_cpu()
+  
+  if(nrow(r_process) == 0){
+    message("Don't find process init with rstudio.")
+    return("")
+  }
   
   r_process %>% 
     left_join(r_version, by = "pid") %>% 
     left_join(cpu_mem, by = "pid") %>% 
     mutate(pid = as.character(pid))
 }
+
 ```
 
 ```{r examples-4}
@@ -268,7 +286,7 @@ These will be included in the `dev_history.R` file of your package, but won't be
 ```{r development-1, eval=FALSE}
 # Run but keep eval=FALSE to avoid infinite loop
 # Execute in the console directly
-fusen::inflate(rmd = "dev/dev_history.Rmd")
+fusen::inflate(flat_file = "dev/dev_history.Rmd", vignette_name = "How to")
 ```
 
 

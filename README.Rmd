@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
   
 # beaware
 
-This application was developed to monitor the use of your server resources by R and Rstudio. It fills a gap in Rstudio Server.
+This application was developed to monitor the use of your server resources by R and Rstudio.
 
 **Code to work with:** 
 
@@ -44,6 +44,26 @@ beaware::launching_app()
 ```
 
 This instruction allows to launch application in background.
+
+You can also use the addin to launch the application:
+
+```{r,eval=TRUE, echo=FALSE}
+knitr::include_graphics("inst/imgs/addin.png")
+```
+
+### How looks the app
+
+```{r, eval=TRUE, echo=FALSE}
+knitr::include_graphics("inst/imgs/page_global.png")
+```
+
+```{r, eval=TRUE, echo=FALSE}
+knitr::include_graphics("inst/imgs/page_users.png")
+```
+
+```{r, eval=TRUE, echo=FALSE}
+knitr::include_graphics("inst/imgs/page_download.png")
+```
 
 # Sponsor
 

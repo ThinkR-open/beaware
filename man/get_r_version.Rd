@@ -18,4 +18,6 @@ Get r version for rsession
 \examples{
 pids <- get_process_rsession()
 get_r_version(pids$pid)
+pids <- get_process_rsession()
+get_r_version(pids$pid)
 }
