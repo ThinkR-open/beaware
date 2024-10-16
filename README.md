@@ -2,7 +2,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/ThinkR-open/beaware/workflows/R-CMD-check/badge.svg)](https://github.com/ThinkR-open/beaware/actions)
+[![R-CMD-check](https://github.com/ThinkR-open/beaware/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ThinkR-open/beaware/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 # beaware
@@ -12,8 +12,8 @@ resources by R and Rstudio.
 
 **Code to work with:**
 
--   linux server
--   to be server administrator (to be able to read user’s pid)
+- linux server
+- to be server administrator (to be able to read user’s pid)
 
 ## Installation
 
