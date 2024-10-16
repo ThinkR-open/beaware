@@ -15,6 +15,7 @@ Imports:
     dplyr,
     DT,
     forcats,
+    fontawesome,
     ggplot2,
     ggthemes,
     golem,
